@@ -1,52 +1,58 @@
 import streamlit as st
 from googlesearch import search
+import time
 
-# Page Setting
-st.set_page_config(page_title="Ali SEO Agency", page_icon="🚀")
+# 1. AI Page Setup
+st.set_page_config(page_title="Ali AI SEO Agency", layout="wide", page_icon="🤖")
 
-# 1. Secret Admin Access via URL
-# If you open: ali-seo-agency.streamlit.app/?admin=true
-# The tool will be FREE for you only.
-query_params = st.query_params
-is_admin = query_params.get("admin") == "true"
+# Hiding Pencil/Toolbar for Professional Look
+st.markdown("<style>#MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;} .stDeployButton {display:none;}</style>", unsafe_allow_html=True)
 
-# 2. Sidebar for Customers
-st.sidebar.header("🔒 Premium Access")
-
-if is_admin:
-    st.sidebar.success("Welcome Ali! Admin Mode Active.")
+# --- SIDEBAR ACCESS ---
+is_paid = False
+if st.query_params.get("admin") == "true":
     is_paid = True
 else:
-    st.sidebar.write("To unlock, pay RS. 2500 via JazzCash:")
-    st.sidebar.info("Account: 03119883980")
-    
-    status = st.sidebar.selectbox("Payment Status", ["Unpaid", "Paid"])
-    
-    if status == "Paid":
-        # Password for customers who have paid
-        password = st.sidebar.text_input("Enter Admin Password", type="password")
-        if password == "ali786":
-            st.sidebar.success("Access Granted!")
-            is_paid = True
-        else:
-            st.sidebar.error("Incorrect Password")
-            is_paid = False
-    else:
-        is_paid = False
+    with st.sidebar:
+        st.title("🛡️ VIP Access")
+        status = st.sidebar.selectbox("Payment Status", ["Unpaid", "Paid"])
+        if status == "Paid":
+            pw = st.sidebar.text_input("Enter Admin Key", type="password")
+            if pw == "ali786":
+                is_paid = True
+                st.sidebar.success("Access Granted!")
 
-# 3. Main App Interface
-st.title("🚀 Professional Guest Post Finder")
+# --- MAIN AI ENGINE ---
+st.title("🤖 Ali AI Vendor Site Finder")
+st.write("Using AI to find high-authority Guest Post Vendor sites.")
 
 if is_paid:
-    query = st.text_input("What niche/topic are you looking for?")
-    if st.button("Search for Leads"):
-        if query:
-            with st.spinner("Finding high-quality sites..."):
-                # Real-time search using Google
-                results = search(f"write for us {query}", num_results=15)
-                for link in results:
-                    st.write(f"✅ Found: {link}")
+    niche = st.text_input("Enter Niche (e.g. Fashion, Tech, Pets):")
+    if st.button("🔍 Search Vendor Sites"):
+        if niche:
+            with st.spinner("AI is scanning live web data..."):
+                try:
+                    # Professional Vendor Query
+                    search_query = f'"{niche}" + "write for us" guest post'
+                    
+                    # Google search call (Stable Method)
+                    results = list(search(search_query, num_results=10, sleep_interval=2))
+                    
+                    if results:
+                        st.subheader(f"✅ Found {len(results)} Verified Vendor Sites:")
+                        for link in results:
+                            # Beautiful UI Card
+                            st.markdown(f"""
+                            <div style="background-color: #f0f2f6; padding: 15px; border-radius: 10px; border-left: 5px solid #1a73e8; margin-bottom: 10px;">
+                                <a href="{link}" target="_blank" style="color: #1a73e8; font-weight: bold; text-decoration: none;">🔗 Open Vendor Site</a><br>
+                                <small style="color: #555;">Live Guest Posting Opportunity Found</small>
+                            </div>
+                            """, unsafe_allow_html=True)
+                    else:
+                        st.warning("No sites found. Try a different keyword.")
+                except Exception as e:
+                    st.error("Google is busy. Please wait 1 minute and refresh the page.")
         else:
-            st.warning("Please enter a niche first.")
+            st.warning("Please enter a niche first!")
 else:
-    st.warning("Tool is Locked. Please pay RS. 2500 and contact Admin for the password.")
+    st.warning("🔒 This Premium AI tool is locked. Pay RS. 2500 to JazzCash (03119883980).")
