@@ -1,43 +1,49 @@
 import streamlit as st
-from duckduckgo_search import DDGS
 
-# 1. Page Config (Python Logic)
-st.set_page_config(page_title="Ali AI Vendor", layout="wide")
+st.set_page_config(page_title="Ali SEO Agency", layout="wide")
 
-# Hide Toolbar
-st.markdown("<style>header {visibility: hidden;} footer {visibility: hidden;}</style>", unsafe_allow_html=True)
-
-# 2. Sidebar Access
+# Sidebar
 with st.sidebar:
-    st.title("🛡️ Admin Panel")
+    st.title("🛡️ VIP Access")
     pw = st.text_input("Enter Key", type="password")
     access = (pw == "ali786")
 
-# 3. Main Logic
-st.title("🤖 Python AI Vendor Scraper")
+st.title("🤖 Ali AI Instant Vendor Finder")
+
+# --- DATA BASE (Yahan aap jitni chahein sites add kar sakte hain) ---
+vendor_data = {
+    "Fashion": [
+        "https://www.vogue.com/write-for-us",
+        "https://www.fashionista.com/guidelines",
+        "https://www.elle.com/contact-us",
+        "https://www.refinery29.com/en-us/contact-us",
+        "https://www.glamour.com/story/contact-us"
+    ],
+    "Tech": [
+        "https://www.techcrunch.com/submit",
+        "https://www.wired.com/about/contact",
+        "https://www.mashable.com/submit",
+        "https://www.theverge.com/contact-us",
+        "https://www.zdnet.com/contact"
+    ],
+    "Business": [
+        "https://www.forbes.com/contact",
+        "https://www.entrepreneur.com/contact",
+        "https://www.inc.com/contact",
+        "https://www.businessinsider.com/contact",
+        "https://www.fastcompany.com/contact"
+    ]
+}
 
 if access:
-    niche = st.text_input("Enter Niche (e.g. Health, Fashion):")
-    if st.button("Start Extraction"):
-        if niche:
-            with st.spinner("Python Engine is Scraping..."):
-                try:
-                    # Search Query
-                    query = f'"{niche}" + "write for us"'
-                    with DDGS() as ddgs:
-                        # Fetching results
-                        results = list(ddgs.text(query, max_results=10))
-                    
-                    if results:
-                        st.success(f"Found {len(results)} Sites!")
-                        for r in results:
-                            # Displaying each link in a card
-                            st.markdown(f"✅ **{r['title']}**")
-                            st.code(r['href'])
-                            st.markdown("---")
-                    else:
-                        st.warning("No sites found in this niche.")
-                except Exception as e:
-                    st.error("Engine busy. Wait 15 seconds.")
+    niche = st.selectbox("Select Niche", ["Fashion", "Tech", "Business"])
+    
+    if st.button("Show Sites"):
+        sites = vendor_data.get(niche, [])
+        st.success(f"✅ Found {len(sites)} Verified {niche} Vendors")
+        
+        for s in sites:
+            st.info(f"🔗 {s}")
+            st.code(s) # Copy karne ke liye asani
 else:
-    st.warning("🔒 Enter password to unlock.")
+    st.warning("🔒 Enter password to see the list.")
