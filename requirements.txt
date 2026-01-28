@@ -1,2 +1,2 @@
 streamlit
-duckduckgo_search==6.3.0
+google-search-python
