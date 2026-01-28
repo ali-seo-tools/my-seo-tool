@@ -1,49 +1,43 @@
 import streamlit as st
-from googlesearch import search
-import time
+from duckduckgo_search import DDGS
 
-# 1. Page Config
-st.set_page_config(page_title="Ali AI Vendor Scraper", layout="wide")
+# 1. Page Config (Python Logic)
+st.set_page_config(page_title="Ali AI Vendor", layout="wide")
 
-# Toolbar Chupane ka Code
-st.markdown("<style>#MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;} .stDeployButton {display:none;}</style>", unsafe_allow_html=True)
+# Hide Toolbar
+st.markdown("<style>header {visibility: hidden;} footer {visibility: hidden;}</style>", unsafe_allow_html=True)
 
-# --- SIDEBAR ACCESS ---
+# 2. Sidebar Access
 with st.sidebar:
-    st.title("🛡️ VIP Control")
-    pw = st.text_input("Enter Admin Password", type="password")
+    st.title("🛡️ Admin Panel")
+    pw = st.text_input("Enter Key", type="password")
     access = (pw == "ali786")
 
-# --- MAIN ENGINE ---
-st.title("🤖 Ali AI Auto-Vendor List")
-st.write("Enter your niche, and the AI will scrape a list of vendor sites directly below.")
+# 3. Main Logic
+st.title("🤖 Python AI Vendor Scraper")
 
 if access:
-    niche = st.text_input("Enter Niche (e.g. Fashion, Tech, Business):")
-    
-    if st.button("Extract List Now"):
+    niche = st.text_input("Enter Niche (e.g. Health, Fashion):")
+    if st.button("Start Extraction"):
         if niche:
-            with st.spinner(f"Scraping {niche} Vendor Sites... Please wait..."):
+            with st.spinner("Python Engine is Scraping..."):
                 try:
-                    # Advanced Search Query
+                    # Search Query
                     query = f'"{niche}" + "write for us"'
+                    with DDGS() as ddgs:
+                        # Fetching results
+                        results = list(ddgs.text(query, max_results=10))
                     
-                    # Google se data khinchne ka tareeka
-                    # Humne pause 2.0 rakha hai taake Google block na kare
-                    results = search(query, num_results=15, sleep_interval=2)
-                    
-                    st.success(f"✅ Found Vendor Sites for {niche}:")
-                    st.markdown("---")
-                    
-                    # Aik aik kar ke results screen par show karna
-                    for i, link in enumerate(results, 1):
-                        st.markdown(f"**{i}.** {link}")
-                        # Copy button ki sahulat ke liye text input
-                        st.code(link) 
-                    
+                    if results:
+                        st.success(f"Found {len(results)} Sites!")
+                        for r in results:
+                            # Displaying each link in a card
+                            st.markdown(f"✅ **{r['title']}**")
+                            st.code(r['href'])
+                            st.markdown("---")
+                    else:
+                        st.warning("No sites found in this niche.")
                 except Exception as e:
-                    st.error("Google has temporarily blocked the auto-scraper. Please wait 5 minutes or use the direct search link.")
-        else:
-            st.warning("Please enter a niche.")
+                    st.error("Engine busy. Wait 15 seconds.")
 else:
-    st.warning("🔒 Please enter the correct password in the sidebar.")
+    st.warning("🔒 Enter password to unlock.")
