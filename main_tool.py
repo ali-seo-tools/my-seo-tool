@@ -1,40 +1,41 @@
 import streamlit as st
-from googlesearch import search
+from duckduckgo_search import DDGS
 
-# Page Configuration
-st.set_page_config(page_title="Ali SEO Agency", layout="wide")
+# 1. Page Config
+st.set_page_config(page_title="Ali AI SEO Agency", layout="wide")
 
-# Sidebar for Password
+# Hiding Menu/Toolbar
+st.markdown("<style>#MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;} .stDeployButton {display:none;}</style>", unsafe_allow_html=True)
+
+# --- SIDEBAR ---
 with st.sidebar:
     st.title("🔑 VIP Access")
-    pw = st.text_input("Enter Admin Password", type="password")
-    if pw == "ali786":
-        st.success("Unlocked!")
-        access = True
-    else:
-        access = False
+    pw = st.text_input("Enter Password", type="password")
+    access = (pw == "ali786")
 
-# Main App
+# --- MAIN TOOL ---
 st.title("🚀 Ali AI Vendor Finder")
 
 if access:
-    niche = st.text_input("Enter Niche (e.g. Fashion, Business):")
+    st.success("Unlocked! Ready to find leads.")
+    niche = st.text_input("Enter Niche (e.g. Fashion, Tech):")
     if st.button("Search Vendor Sites"):
         if niche:
-            with st.spinner("Searching Google..."):
+            with st.spinner("AI is searching..."):
                 try:
-                    # Simple search query
+                    # Professional Vendor Query
                     query = f"{niche} write for us"
-                    results = list(search(query, num_results=10))
+                    with DDGS() as ddgs:
+                        results = list(ddgs.text(query, max_results=10))
                     
                     if results:
-                        for link in results:
-                            st.info(f"🔗 {link}")
+                        for r in results:
+                            st.info(f"🔗 {r['title']}\n{r['href']}")
                     else:
-                        st.warning("No results found.")
+                        st.warning("No sites found. Try again.")
                 except Exception as e:
-                    st.error("Too many searches. Please wait 2 minutes.")
+                    st.error("Engine busy. Please wait 10 seconds.")
         else:
-            st.warning("Enter a niche name first.")
+            st.warning("Enter a niche first.")
 else:
-    st.warning("Please enter password in sidebar to use the tool.")
+    st.warning("Enter password in sidebar to start.")
