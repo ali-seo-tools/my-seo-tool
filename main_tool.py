@@ -1,50 +1,40 @@
 import streamlit as st
 from googlesearch import search
 
-# 1. Page Config
-st.set_page_config(page_title="Ali AI SEO Agency", layout="wide")
+# Page Configuration
+st.set_page_config(page_title="Ali SEO Agency", layout="wide")
 
-# Hiding the toolbar for professional look
-st.markdown("<style>#MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;} .stDeployButton {display:none;}</style>", unsafe_allow_html=True)
-
-# --- SIDEBAR ACCESS ---
-is_paid = False
+# Sidebar for Password
 with st.sidebar:
-    st.title("🛡️ VIP Access")
-    status = st.selectbox("Status", ["Unpaid", "Paid"])
-    if status == "Paid":
-        if st.text_input("Admin Key", type="password") == "ali786":
-            is_paid = True
-            st.success("Unlocked!")
+    st.title("🔑 VIP Access")
+    pw = st.text_input("Enter Admin Password", type="password")
+    if pw == "ali786":
+        st.success("Unlocked!")
+        access = True
+    else:
+        access = False
 
-# --- MAIN TOOL ---
-st.title("🤖 Ali AI Vendor Finder")
+# Main App
+st.title("🚀 Ali AI Vendor Finder")
 
-if is_paid:
+if access:
     niche = st.text_input("Enter Niche (e.g. Fashion, Business):")
-    if st.button("Find Vendor Sites Now"):
+    if st.button("Search Vendor Sites"):
         if niche:
-            with st.spinner("Scanning Google..."):
+            with st.spinner("Searching Google..."):
                 try:
-                    # Professional Query for Vendors
-                    query = f'"{niche}" + "write for us"'
-                    
-                    # Stable Search Method
+                    # Simple search query
+                    query = f"{niche} write for us"
                     results = list(search(query, num_results=10))
                     
                     if results:
-                        st.success(f"Found {len(results)} Sites!")
                         for link in results:
-                            st.markdown(f"""
-                            <div style="background-color: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 5px solid #007bff; margin-bottom: 10px;">
-                                <a href="{link}" target="_blank" style="color: #007bff; font-weight: bold; text-decoration: none;">🔗 Open Site</a>
-                            </div>
-                            """, unsafe_allow_html=True)
+                            st.info(f"🔗 {link}")
                     else:
-                        st.warning("No sites found. Try a different word.")
+                        st.warning("No results found.")
                 except Exception as e:
-                    st.error("Too many searches. Please wait 1 minute and refresh.")
+                    st.error("Too many searches. Please wait 2 minutes.")
         else:
-            st.warning("Enter a niche first!")
+            st.warning("Enter a niche name first.")
 else:
-    st.info("🔒 Enter Key in sidebar to start.")
+    st.warning("Please enter password in sidebar to use the tool.")
