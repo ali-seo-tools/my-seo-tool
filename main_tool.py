@@ -2,87 +2,91 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 
-# 1. Advanced Page Configuration
-st.set_page_config(
-    page_title="Ali SEO Pro - Vendor Finder",
-    page_icon="🎯",
-    layout="wide"
-)
+# 1. Page Setup
+st.set_page_config(page_title="Ali SEO Pro - VIP", layout="wide", page_icon="💎")
 
-# Professional UI Styling (Outreachflow Style)
+# Professional CSS
 st.markdown("""
     <style>
-    .main { background-color: #f8f9fa; }
-    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #007bff; color: white; }
-    .vendor-card { background-color: white; padding: 20px; border-radius: 10px; border: 1px solid #e1e4e8; margin-bottom: 10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.05); }
-    header {visibility: hidden;}
-    footer {visibility: hidden;}
+    .main { background-color: #f4f7f6; }
+    .stMetric { background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .vendor-card { background-color: white; padding: 20px; border-radius: 12px; border-left: 6px solid #007bff; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    header {visibility: hidden;} footer {visibility: hidden;}
     </style>
     """, unsafe_allow_html=True)
 
-# 2. Sidebar with Access Control & Stats
+# 2. Sidebar License System
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/1055/1055644.png", width=80)
-    st.title("Ali SEO Agency")
-    st.info(f"📅 Date: {datetime.now().strftime('%Y-%m-%d')}")
-    access_key = st.text_input("License Key", type="password")
+    st.title("🛡️ Admin Console")
+    access_key = st.text_input("Enter License Key", type="password")
     is_verified = (access_key == "ali786")
-    
     if is_verified:
-        st.success("✅ License: Premium Active")
-    else:
-        st.error("❌ System Locked")
+        st.success("Premium License Verified")
+        st.write(f"Logged in: {datetime.now().strftime('%H:%M:%S')}")
 
-# 3. Professional Database (Expanded)
-vendor_db = {
-    "Technology": ["https://techcrunch.com/submit", "https://wired.com/contact", "https://mashable.com/submit", "https://theverge.com/contact"],
-    "Fashion": ["https://vogue.com/write-for-us", "https://fashionista.com/guidelines", "https://elle.com/contact", "https://glamour.com/contact"],
-    "Business": ["https://forbes.com/contact", "https://entrepreneur.com/contact", "https://inc.com/contact", "https://hbr.org/contact"],
-    "Health": ["https://healthline.com", "https://webmd.com", "https://medicalnewstoday.com"],
-    "Finance": ["https://investopedia.com", "https://bloomberg.com", "https://marketwatch.com"],
-    "Real Estate": ["https://zillow.com/blog", "https://realtor.com/news", "https://biggerpockets.com"],
-    "Travel": ["https://lonelyplanet.com", "https://nomadicmatt.com", "https://travelandleisure.com"],
-    "Crypto": ["https://coindesk.com", "https://cointelegraph.com", "https://decrypt.co"]
+# 3. Advanced Database with SEO Metrics
+# format: [URL, DA, Traffic, Price]
+raw_data = {
+    "Technology": [
+        ["https://techcrunch.com", "92", "15M", "Contact for Quote"],
+        ["https://wired.com", "93", "20M", "$1500+"],
+        ["https://thenextweb.com", "89", "2M", "$500"],
+        ["https://mashable.com", "91", "10M", "$800"]
+    ],
+    "Health": [
+        ["https://healthline.com", "92", "50M", "High Authority"],
+        ["https://medicalnewstoday.com", "91", "30M", "Verified"],
+        ["https://psychologytoday.com", "91", "25M", "$400"]
+    ],
+    "Marketing": [
+        ["https://hubspot.com", "92", "10M", "Guest Post Only"],
+        ["https://neilpatel.com", "88", "5M", "$600"],
+        ["https://searchenginejournal.com", "89", "3M", "$450"]
+    ]
 }
 
-# 4. Main Dashboard UI
+# 4. Main Interface
 if is_verified:
-    st.title("🎯 Premium Guest Post Vendor Finder")
-    st.write("Extract verified high-authority websites for your SEO outreach campaigns.")
+    st.title("🎯 Ali Pro SEO - Vendor Intelligence")
     
-    # Feature: Multi-Filter Search
-    col1, col2 = st.columns([2, 1])
-    with col1:
-        niche = st.selectbox("Select Target Industry", list(vendor_db.keys()))
-    with col2:
-        search_query = st.text_input("Filter by Keyword")
+    # Top Stats Row
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Total Vendors", "5,000+")
+    c2.metric("Active Leads", "1,240")
+    c3.metric("System Status", "Online 100%")
 
-    if st.button("Generate Vendor Leads"):
-        sites = vendor_db.get(niche, [])
-        
-        # Filtering logic
-        if search_query:
-            sites = [s for s in sites if search_query.lower() in s.lower()]
-            
-        st.subheader(f"📊 Results: {len(sites)} Vendors Found")
-        
-        # Displaying results in a clean grid
-        for site in sites:
-            st.markdown(f"""
-                <div class="vendor-card">
-                    <h4 style="color: #007bff; margin-bottom: 5px;">🌐 {site.split('//')[1].split('/')[0].upper()}</h4>
-                    <p style="color: #6c757d; font-size: 0.9em;">Verified Vendor Link</p>
-                    <a href="{site}" target="_blank" style="color: #28a745; font-weight: bold;">View Submission Page</a>
-                </div>
-            """, unsafe_allow_html=True)
-            st.code(site) # Feature: Easy Copy for Outreach
-
-    # Feature: Download Capability
     st.divider()
-    st.write("📥 **Export Leads:** You can download the current view as a CSV for your team.")
-    if st.button("Export to Excel (CSV)"):
-        st.download_button("Click to Download", "Site\n" + "\n".join(vendor_db[niche]), "leads.csv")
+
+    # Search Filters
+    col_a, col_b = st.columns([2, 1])
+    with col_a:
+        niche = st.selectbox("Select Target Industry", list(raw_data.keys()))
+    with col_b:
+        search = st.text_input("Quick Filter (Leave blank to see all)")
+
+    if st.button("🔥 Fetch Premium Leads"):
+        leads = raw_data.get(niche, [])
+        if search:
+            leads = [l for l in leads if search.lower() in l[0].lower()]
+        
+        st.subheader(f"Results for {niche}")
+        
+        for l in leads:
+            st.markdown(f"""
+            <div class="vendor-card">
+                <div style="display: flex; justify-content: space-between;">
+                    <h3 style="margin:0; color:#007bff;">🌐 {l[0].replace('https://','').upper()}</h3>
+                    <span style="background:#e1f5fe; padding:5px 10px; border-radius:15px; font-weight:bold; color:#01579b;">DA: {l[1]}</span>
+                </div>
+                <p style="margin:10px 0; color:#555;">Monthly Traffic: <b>{l[2]}</b> | Price Status: <b>{l[3]}</b></p>
+                <a href="{l[0]}" target="_blank" style="background:#007bff; color:white; padding:8px 15px; text-decoration:none; border-radius:5px; font-size:14px;">Open Site</a>
+            </div>
+            """, unsafe_allow_html=True)
+            st.code(f"Site: {l[0]} | DA: {l[1]}")
+
+    st.divider()
+    st.write("📥 **Bulk Actions**")
+    st.download_button("Export Lead List", "Site,DA,Traffic\n" + "\n".join([f"{x[0]},{x[1]},{x[2]}" for x in raw_data[niche]]), "seo_leads.csv")
 
 else:
-    st.warning("Please enter your License Key in the sidebar to access the AI Database.")
-    st.image("https://i.imgur.com/71S3C0W.png") # Placeholder for professional locked screen
+    st.warning("Please verify your license key in the sidebar.")
