@@ -1,0 +1,17 @@
+import streamlit as st
+import google.generativeai as genai
+
+st.title("🤖 Gemini AI SEO Consultant")
+st.write("Get instant SEO advice powered by Google's most advanced AI.")
+
+api_key = st.text_input("Enter your API Key to unlock AI:", type="password")
+user_query = st.text_input("How can I help you with your SEO today?")
+
+if st.button("Analyze"):
+    if api_key and user_query:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-pro')
+        response = model.generate_content(user_query)
+        st.info(response.text)
+    else:
+        st.error("Please provide both an API Key and a question.")
