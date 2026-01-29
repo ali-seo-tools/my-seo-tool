@@ -4,7 +4,7 @@ import google.generativeai as genai
 st.set_page_config(page_title="AI SEO Consultant", layout="wide")
 
 # Replace this with your actual key (e.g., "AIzaSy...")
-API_KEY = "AIzaSyCnIyWGLBTHASU4jsWsRskBPpswtjrLfeM" 
+API_KEY = "AIzaSyCN9MK1CV9gql-Ih2Lbb3HgEusyFpa8UKA" 
 
 # Correct Setup for 2026
 try:
