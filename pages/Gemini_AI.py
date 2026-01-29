@@ -3,7 +3,7 @@ import google.generativeai as genai
 
 # Simple Setup
 st.set_page_config(page_title="AI SEO Tool")
-API_KEY = "AIzaSyCnlyWGLBTHASU4jsWsRskBPpswtjrLfeM"
+API_KEY = "AIzaSyCN9MK1CV9gql-Ih2Lbb3HgEusyFpa8UKA"
 
 try:
     genai.configure(api_key=API_KEY)
