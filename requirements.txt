@@ -1,2 +1,2 @@
+google-generativeai
 streamlit
-duckduckgo_search==6.3.0
