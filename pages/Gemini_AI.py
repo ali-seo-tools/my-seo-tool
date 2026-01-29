@@ -10,7 +10,7 @@ API_KEY = "AIzaSyCN9MK1CV9gql-Ih2Lbb3HgEusyFpa8UKA"
 try:
     genai.configure(api_key=API_KEY)
     # Using 'gemini-1.5-flash' which is the fastest and most compatible
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-pro')
 except Exception as e:
     st.error("Config Error")
 
