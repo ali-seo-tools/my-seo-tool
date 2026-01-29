@@ -1,62 +1,26 @@
 import streamlit as st
-import google.generativeai as genai
 
-# 1. PAGE SETUP (Professional Look)
-st.set_page_config(page_title="Ali SEO GLOBAL", layout="wide", page_icon="🚀")
+st.set_page_config(page_title="Ali SEO Global", layout="wide", page_icon="📈")
 
-# Gemini Setup (Yahan apni key lagayen)
-genai.configure(api_key="APKI_GEMINI_KEY_YAHAN_LIKHEIN")
-
-# 2. CUSTOM CSS (Design behtar karne ke liye)
+# Header Section
+st.title("Ali SEO Global")
+st.subheader("Dominating Search Engines with AI-Powered SEO")
 st.markdown("""
-<style>
-    .stApp { background: #05070a; color: white; }
-    .price-card {
-        padding: 20px;
-        border-radius: 15px;
-        background: #111827;
-        border: 1px solid #1e293b;
-        text-align: center;
-    }
-</style>
-""", unsafe_allow_html=True)
+Welcome to the future of digital growth. We combine **Human Expertise** with **Gemini AI** to rank your website on the first page of Google.
+""")
 
-# 3. HEADER
-st.title("🚀 Ali SEO GLOBAL | #1 Outreach Agency")
-st.write("Stop Cold Pitching. Get 'YES' on Autopilot.")
-
-# 4. AI SEO ASSISTANT (Gemini Connection)
 st.divider()
-st.header("🤖 Gemini AI SEO Expert")
-user_input = st.text_input("SEO ke baare mein kuch bhi poochein:")
-if user_input:
-    model = genai.GenerativeModel('gemini-pro')
-    response = model.generate_content(user_input)
-    st.info(response.text)
 
-# 5. EARNING SECTION (Price Table)
-st.divider()
-st.header("💰 Premium SEO Services ($100 Target)")
+# Value Proposition
 col1, col2, col3 = st.columns(3)
-
 with col1:
-    st.markdown('<div class="price-card"><h3>Basic</h3><p>5 Guest Posts</p><h2>$20</h2></div>', unsafe_allow_html=True)
-    if st.button("Order Basic"):
-        st.write("WhatsApp: +923XXXXXXXXX")
-
+    st.write("### 🤖 AI-Driven")
+    st.write("Real-time SEO audits using Google's Gemini Pro.")
 with col2:
-    st.markdown('<div class="price-card"><h3>Pro</h3><p>AI SEO Audit</p><h2>$50</h2></div>', unsafe_allow_html=True)
-    if st.button("Order Pro"):
-        st.write("WhatsApp: +923XXXXXXXXX")
-
+    st.write("### 🔗 Authority Backlinks")
+    st.write("High-quality Guest Posts from DA 50+ websites.")
 with col3:
-    st.markdown('<div class="price-card"><h3>Elite</h3><p>Monthly SEO</p><h2>$100</h2></div>', unsafe_allow_html=True)
-    if st.button("Order Elite"):
-        st.write("WhatsApp: +923XXXXXXXXX")
+    st.write("### 📈 Data Focused")
+    st.write("Metric-based strategies to increase your organic traffic.")
 
-# 6. ADSENSE & LEGAL PAGES
-st.divider()
-st.sidebar.title("Navigation")
-st.sidebar.write("🏠 Home")
-st.sidebar.write("📄 Privacy Policy (AdSense Required)")
-st.sidebar.write("📧 Contact Us")
+st.sidebar.success("Select a service above to get started.")
