@@ -5,7 +5,7 @@ import google.generativeai as genai
 st.set_page_config(page_title="AI SEO Consultant", layout="wide")
 
 # Your Provided API Key
-API_KEY = "AIzaSyCnlyWGLBTHASU4jsWsRskBPpswtjrLfeM"
+API_KEY = "AIzaSyCnIyWGLBTHASU4jsWsRskBPpswtjrLfeM"
 
 # Configure the SDK to use the stable v1 version
 genai.configure(api_key=API_KEY)
