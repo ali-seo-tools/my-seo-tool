@@ -1,41 +1,35 @@
 import streamlit as st
 import google.generativeai as genai
 
-# Page Configuration
-st.set_page_config(page_title="AI SEO Expert | Ali SEO Global", layout="wide")
+st.set_page_config(page_title="AI SEO Consultant", layout="wide")
 
-# --- API KEY CONFIGURATION ---
-# Paste your API Key inside the quotes below
-API_KEY = "AIzaSyDeShr0OPl_kc44UslLFGKR5-ZtIvlQYpk" 
+# Replace this with your actual key (e.g., "AIzaSy...")
+API_KEY = "AIzaSyCnIyWGLBTHASU4jsWsRskBPpswtjrLfeM" 
 
-# Initialize Gemini
+# Correct Setup for 2026
 try:
     genai.configure(api_key=API_KEY)
+    # Using 'gemini-1.5-flash' which is the fastest and most compatible
     model = genai.GenerativeModel('gemini-1.5-flash')
 except Exception as e:
-    st.error("API Configuration Failed. Please check your key.")
+    st.error("Config Error")
 
-# UI Elements
-st.title("🤖 Gemini AI SEO Consultant")
-st.write("Enter your SEO questions or content requirements below to get instant AI-powered advice.")
+st.title("🤖 Gemini AI SEO Expert")
+st.write("Professional SEO advice instantly.")
 
-st.divider()
-
-# User Input Section
-user_query = st.text_area("What would you like to ask?", placeholder="e.g. Write a 500-word blog post about Guest Posting strategies...")
+user_query = st.text_area("Ask your SEO question:")
 
 if st.button("Generate Response"):
     if user_query:
         with st.spinner("AI is thinking..."):
             try:
+                # Standard generation
                 response = model.generate_content(user_query)
                 st.success("Analysis Complete!")
-                st.markdown("### AI Output:")
                 st.write(response.text)
             except Exception as e:
-                st.error(f"An error occurred: {e}")
+                # If this fails, it's either the key or the model name
+                st.error(f"Error: {e}")
+                st.info("Try changing 'gemini-1.5-flash' to 'gemini-1.5-pro' in the code if this persists.")
     else:
-        st.warning("Please enter a prompt or question first.")
-
-# Sidebar Info
-st.sidebar.info("This tool is powered by Google Gemini Pro. Use it to generate keywords, blog outlines, or SEO audits.")
+        st.warning("Please enter a question.")
