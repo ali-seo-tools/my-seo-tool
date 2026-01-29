@@ -1,0 +1,26 @@
+import streamlit as st
+import google.generativeai as genai
+
+st.set_page_config(page_title="Gemini AI Consultant", layout="wide")
+
+st.title("🤖 Gemini AI SEO Consultant")
+st.markdown("---")
+
+# Instructions for user
+st.info("Unlock the power of Google's advanced AI to analyze your SEO strategy.")
+
+api_key = st.text_input("Enter your Gemini API Key:", type="password")
+query = st.text_area("What SEO challenge can I help you with today?")
+
+if st.button("Generate AI Insights"):
+    if api_key and query:
+        try:
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel('gemini-pro')
+            response = model.generate_content(query)
+            st.success("AI Analysis Complete:")
+            st.write(response.text)
+        except Exception as e:
+            st.error(f"Error: {e}")
+    else:
+        st.warning("Please provide both an API key and a question.")
