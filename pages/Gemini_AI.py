@@ -11,7 +11,7 @@ API_KEY = "AIzaSyDeShr0OPl_kc44UslLFGKR5-ZtIvlQYpk"
 # Initialize Gemini
 try:
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-1.5-flash')
 except Exception as e:
     st.error("API Configuration Failed. Please check your key.")
 
