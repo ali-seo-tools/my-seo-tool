@@ -6,7 +6,7 @@ import google.ai.generativelanguage as glm
 st.set_page_config(page_title="AI SEO Consultant", layout="wide")
 
 # Your API Key
-API_KEY = "AIzaSyCnIyWGLBTHASU4jsWsRskBPpswtjrLfeM"
+API_KEY = "AIzaSyDeShr0OPl_kc44UslLFGKR5-ZtIvlQYpk"
 
 # FORCE STABLE CONFIGURATION
 genai.configure(api_key=API_KEY)
